@@ -13,3 +13,13 @@ def __str__(self):
 
 def get_absolute_url(self):
     return reverse ('books_detail', kwargs={'book_id': self.id})
+
+
+
+
+class Genre(models.Model):
+    name=models.CharField(max_length=50)
+
+def __str__(self): 
+    return f'{self.name}'
+
