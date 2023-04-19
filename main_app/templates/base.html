@@ -1,0 +1,51 @@
+{% load static %}
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link 
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'css/style.css'%}">
+
+    {% block title %}
+    <title>Book Collector</title>
+    {% endblock %}
+</head>
+<body>
+    <header class="navbar-fixed">
+        <nav>
+            <div class=" nav-wrapper  green">
+                <a class="left brand-logo" href="{% url 'home' %}"> Book Collector</a>
+                <ul class="right">
+                    <li>
+                        <!-- <a href="/about"> About</a> -->
+                        <a href="{% url 'about' %}"> About</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'books_index' %}"> View All Books </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'book_create' %}"> Add a Book  </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container">
+        {% block content %} 
+        {% endblock %}
+    </main>
+        <footer class="page-footer green">
+            <p> Copyright &copy; All Rights Reserved Book Collector 2023</p>
+        </footer>
+</body>
+</html>

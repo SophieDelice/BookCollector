@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{% if object %}
+<title> Update {{object.title}} </title>
+{% else %}
+<title> Add  a Book </title>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if object %}
+<h1> Update {{ object.title }} </h1>
+{% else %}
+<h1> Create a Book </h1>
+{% endif %}
+
+<form method="POST">
+{% csrf_token %}
+<table>
+   {{ form.as_table }}
+</table>
+
+ <input type="submit" value="Submit" class="btn blue">
+
+</form>
+
+{% endblock %}
