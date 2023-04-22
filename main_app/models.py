@@ -16,5 +16,11 @@ def __str__(self):
 def get_absolute_url(self):
     return reverse ('books_detail', kwargs={'book_id': self.id})
 
-# class Category(models.Model):
-#     genre = models.CharField(max_length=50)
+class Reading(models.Model):
+    TIMES = (
+        ('M', 'Morning'),
+        ('A', 'Afternoon'),
+        ('E', 'Evening'),
+    )
+    date = models.DateField()
+    time = models.CharField(max_length=1, choices=TIMES, default=TIMES[0][0])
