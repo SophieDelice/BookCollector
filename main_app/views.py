@@ -47,6 +47,7 @@ def books_detail(request, book_id):
 @login_required
 def add_reading(request, book_id):
     form = ReadingForm(request.POST)
+    print(form.errors)
     if form.is_valid():
         new_reading = form.save(commit=False)
         new_reading.book_id = book_id 
