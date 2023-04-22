@@ -10,11 +10,11 @@ class Book(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
-def __str__(self):
-    return self.title
+    def __str__(self):
+        return self.title
 
-def get_absolute_url(self):
-    return reverse ('books_detail', kwargs={'book_id': self.id})
+    def get_absolute_url(self):
+        return reverse ('books_detail', kwargs={'book_id': self.id})
 
 class Reading(models.Model):
     TIMES = (
@@ -22,5 +22,11 @@ class Reading(models.Model):
         ('A', 'Afternoon'),
         ('E', 'Evening'),
     )
-    date = models.DateField()
-    time = models.CharField(max_length=1, choices=TIMES, default=TIMES[0][0])
+    date = models.DateField('reading date')
+    time = models.CharField(max_length=1, choices=TIMES, default=TIMES[0][0], verbose_name = 'When')
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    def  __str__(self): 
+        return f"{self.get_time_display()} on {self.date}"
+    class Meta:
+        ordering = '-date',

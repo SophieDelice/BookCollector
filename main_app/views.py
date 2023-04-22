@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic.edit import CreateView, UpdateView, DeleteView 
 from .models import Book
+from .forms import ReadingForm
 from django.contrib.auth import login 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -37,7 +38,20 @@ def books_index(request):
 @login_required
 def books_detail(request, book_id):
     book = Book.objects.get( id = book_id)
-    return render(request, 'books/detail.html', {'book': book, })
+    reading_form = ReadingForm()
+    return render(request, 'books/detail.html', {
+        'book': book, 
+        'reading_form': reading_form 
+    })
+
+@login_required
+def add_reading(request, book_id):
+    form = ReadingForm(request.POST)
+    if form.is_valid():
+        new_reading = form.save(commit=False)
+        new_reading.book_id = book_id 
+        new_reading.save()
+    return redirect('books_detail', book_id=book_id)
 
 
 def signup(request): 
@@ -49,17 +63,18 @@ def signup(request):
             login(request, user)
             return redirect('books_index')
         else: 
-            print(form.erros)
+            print(form.errors)
             error_message = 'Invalid sign up - try again'
-        form = UserCreationForm()
-        return render(request, 'registration/signup.html', {
-            'form': form , 
-            'error': error_message
-         })
+       
+    form = UserCreationForm()
+    return render(request, 'registration/signup.html', {
+        'form': form , 
+        'error': error_message
+    })
 
 class BookCreate(LoginRequiredMixin, CreateView):
     model = Book
-    fields = '__all__'
+    fields = ('title', 'author', 'year')
     template_name = 'books/book_form.html'
     success_url ='/books/'
     def form_valid(self, form): 
